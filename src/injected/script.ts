@@ -5,13 +5,6 @@ import { myWindow } from "../types";
     */
 const inject = (config: any): void => {
     const Mwindow = (window as unknown) as myWindow;
-
-    if (
-        window.location.href ===
-        "https://www.conflictnations.com/game.php?bust=1"
-    ) {
-        return;
-    }
     function autoRefresh(_config: any) {
         setInterval(() => {
             console.log("interval checking...");
@@ -32,7 +25,10 @@ const inject = (config: any): void => {
         console.log("game filter called");
         const proxy = Mwindow.hup.model.games.Game.onSearchGamesLoaded;
         Mwindow.hup.model.games.Game.onSearchGamesLoaded = function () {
-            if (!Mwindow.chromeStorage.gameFilter) {
+            if (
+                !Mwindow.chromeStorage.gameFilter ||
+                Mwindow.chromeStorage.gameFilter === "none"
+            ) {
                 return proxy.apply(this, [].slice.call(arguments));
             }
             console.log("proxy called");
