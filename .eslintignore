@@ -1,2 +1,13 @@
 **/node_modules
 extension
+*
+src/**
+src/
+src
+src/*
+public
+server
+background
+injected
+src/**/*.ts
+src/**/*.tsx

@@ -1,11 +1,7 @@
-import { createMemoryHistory } from 'history';
-import React from 'react';
-import { hot } from 'react-hot-loader/root';
-import { Route, Router } from 'react-router';
-import { Link } from 'react-router-dom';
-import './App.scss';
-import AutoRefresh from './pages/autoRefresh';
-import Index from './pages/Index';
+import { createMemoryHistory } from "history";
+import React from "react";
+import { hot } from "react-hot-loader/root";
+import "./App.scss";
 
 const history = createMemoryHistory();
 // const NavBar = ({ setPath }) => {
@@ -41,9 +37,13 @@ const history = createMemoryHistory();
 // };
 const App = () => {
     console.log({ history });
-    return <div>{/* <Router history={history}>
+    return (
+        <div>
+            {/* <Router history={history}>
               
-            </Router> */}</div>;
+            </Router> */}
+        </div>
+    );
 };
 
 export default hot(App);

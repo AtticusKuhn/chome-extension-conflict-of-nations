@@ -1,28 +1,32 @@
-import { myWindow } from '../types';
+import { myWindow } from "../types";
 // import autoRefresh from './autoRefresh';
 /*
     rip I must have every function in 1 file unitll I figure out how to use webpack
     */
-
 const inject = (config: any): void => {
-    if (window.location.href === 'https://www.conflictnations.com/game.php?bust=1') {
+    if (
+        window.location.href ===
+        "https://www.conflictnations.com/game.php?bust=1"
+    ) {
         return;
     }
-    function autoRefresh(config: any) {
+    function autoRefresh(_config: any) {
         setInterval(() => {
-            console.log('interval checking...');
-            if (!window.chromeStorage.autoRefresh) {
+            console.log("interval checking...");
+            const Mwindow = (window as unknown) as myWindow;
+            if (!Mwindow.chromeStorage.autoRefresh) {
                 return; // only execute if this setting has been enabled
             }
-            const games_button = document.querySelector('#ui_open_new_games');
+            const games_button = document.querySelector("#ui_open_new_games");
+            //@ts-ignore
             games_button.click();
         }, 1e3);
         // if(!window.locatio)
-        console.log('auto refresh function');
+        console.log("auto refresh function");
     }
     const Mwindow = (window as unknown) as myWindow;
     Mwindow.chromeStorage = config;
-    console.log('injected');
+    console.log("injected");
     // console.log(hup.config.user);
     // Mwindow.hup = {
     //     aInternal: {},
