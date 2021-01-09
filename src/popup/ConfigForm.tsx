@@ -24,7 +24,7 @@ const updateStorage = (values: any) => {
             ) {
                 //@ts-ignore
                 chrome.tabs.sendMessage(tabs[0].id, obj, function (response) {
-                    console.log(response.farewell);
+                    console.log("recieved response");
                 });
             });
         });
@@ -46,6 +46,7 @@ const ConfigForm = ({ children, shape }: { children: any; shape: any }) => {
                 enableReinitialize
                 initialValues={storage}
                 onSubmit={async (values) => {
+                    console.log({ values });
                     setStorage(values);
                     updateStorage(values);
                 }}
