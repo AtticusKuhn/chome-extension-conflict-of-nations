@@ -1,0 +1,41 @@
+{
+    "name": "conflict of nations chrome exteions",
+    "version": "1.0",
+    "description": "does stuff",
+    "manifest_version": 2,
+    "minimum_chrome_version": "80",
+    "content_security_policy": "script-src 'self' 'unsafe-eval' 'unsafe-inline'; object-src 'self';",
+    "permissions": ["storage"],
+    "background": {
+        "scripts": ["js/background.js"],
+        "persistent": true
+    },
+    "content_scripts": [
+        {
+            "all_frames": true,
+            "matches": ["https://www.conflictnations.com/clients/con-uber/con-uber_live/*"],
+            "css": ["css/all.css"],
+            "js": ["js/all.js"]
+        }
+    ],
+    "web_accessible_resources": ["injected/script.js", "contents/all/index.js"],
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icons/extension-icon-x16.png",
+            "32": "icons/extension-icon-x32.png",
+            "48": "icons/extension-icon-x48.png",
+            "128": "icons/extension-icon-x128.png"
+        }
+    },
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
+    "icons": {
+        "16": "icons/extension-icon-x16.png",
+        "32": "icons/extension-icon-x32.png",
+        "48": "icons/extension-icon-x48.png",
+        "128": "icons/extension-icon-x128.png"
+    }
+}
