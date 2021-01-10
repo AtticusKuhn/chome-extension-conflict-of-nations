@@ -37,8 +37,11 @@ const history = createMemoryHistory();
 // };
 const App = () => {
     console.log({ history });
+    const style = {
+        width: "500px",
+    };
     return (
-        <div>
+        <div style={style}>
             {/* <Router history={history}>
               
             </Router> */}

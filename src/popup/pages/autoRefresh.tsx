@@ -5,9 +5,13 @@ import ConfigForm, { MyField } from "../ConfigForm";
 export default function AutoRefresh() {
     return (
         <>
-            <h1>hello I am autoRefresh</h1>
+            auotmatically refresh games to see the newest games immediately
             <ConfigForm shape={{ autoRefresh: false }}>
-                <MyField name="autoRefresh" type="checkbox" />
+                <MyField
+                    className="form-check-input form-control"
+                    name="autoRefresh"
+                    type="checkbox"
+                />
             </ConfigForm>
         </>
     );

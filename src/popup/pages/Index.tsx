@@ -5,6 +5,7 @@ export default function Index() {
     return (
         <>
             <h1>Con Extension</h1>
+            click on a module to imporve your con expericence
         </>
     );
 }

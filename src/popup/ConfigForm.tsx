@@ -40,8 +40,7 @@ const ConfigForm = ({ children, shape }: { children: any; shape: any }) => {
         //@ts-ignore
     }, []);
     return (
-        <div className="ConfigForm">
-            {JSON.stringify(storage)}
+        <div className="ConfigForm form-group">
             <Formik
                 enableReinitialize
                 initialValues={storage}
@@ -53,7 +52,9 @@ const ConfigForm = ({ children, shape }: { children: any; shape: any }) => {
             >
                 <Form>
                     {children}
-                    <button type="submit">Submit</button>
+                    <button type="submit" className="btn btn-primary">
+                        Submit
+                    </button>
                 </Form>
             </Formik>
         </div>
