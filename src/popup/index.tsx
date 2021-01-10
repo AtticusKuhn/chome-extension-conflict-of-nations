@@ -7,6 +7,7 @@ import "./App.scss";
 import AutoRefresh from "./pages/autoRefresh";
 import Index from "./pages/Index";
 import GameFilter from "./pages/GameFilter";
+import LastLogin from "./pages/LastLogin";
 
 ReactDOM.render(
     <HashRouter>
@@ -19,9 +20,13 @@ ReactDOM.render(
         <li>
             <Link to="/gameFilter">filter gamges</Link>
         </li>
+        <li>
+            <Link to="/lastLogin">activity state</Link>
+        </li>
         <Route exact path="/" component={Index} />
         <Route path="/refresh" component={AutoRefresh} />
         <Route path="/gameFilter" component={GameFilter} />
+        <Route path="/lastLogin" component={LastLogin} />
         <App />
     </HashRouter>,
     document.querySelector("#root")

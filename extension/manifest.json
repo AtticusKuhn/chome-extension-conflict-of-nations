@@ -13,7 +13,10 @@
     "content_scripts": [
         {
             "all_frames": true,
-            "matches": ["https://www.conflictnations.com/clients/con-uber/con-uber_live/*"],
+            "matches": [
+                "https://www.conflictnations.com/clients/con-uber/con-uber_live/*",
+                "https://www.conflictnations.com/clients/con-client/*"
+            ],
             "css": ["css/all.css"],
             "js": ["js/all.js"]
         }

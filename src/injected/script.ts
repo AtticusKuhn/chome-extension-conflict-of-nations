@@ -56,6 +56,44 @@ const inject = (config: any): void => {
             return proxy2.apply(this, [].slice.call(newArgs));
         };
     }
+    function lastLogin() {
+        console.log("last login called");
+        const proxy = Mwindow.hup.ui.PlayerDetailWidget.prototype.open;
+        Mwindow.hup.ui.PlayerDetailWidget.prototype.open = function () {
+            if (!Mwindow.chromeStorage.lastLogin) {
+                return proxy.apply(this, [].slice.call(arguments));
+            }
+            const player = Mwindow.hup.gameState
+                .getPlayerState()
+                .getPlayer(arguments[0].data);
+            const lastLoginTime = player.lastLogin;
+
+            setTimeout(() => {
+                if (!document.getElementById("player_detail")) {
+                    return;
+                }
+                //    const row=  document.querySelector("#player_detail > div.stats_right_container.clearAfter > div.right-pane > div > div > div:nth-child(2)")
+                const newDiv = document.createElement("div");
+                newDiv.innerHTML = `
+            <div class="detail_entry">
+                    <div class="detail_label">
+                        Last Login
+                    </div>
+                    <div class="sg_float_l">
+                        ${new Date(
+                            lastLoginTime
+                        ).toLocaleTimeString()} ${new Date(
+                    lastLoginTime
+                ).toLocaleDateString()}
+                    </div>
+                </div>`;
+                document
+                    .getElementsByClassName("right-pane")[0]
+                    .appendChild(newDiv);
+            }, 1e3);
+            return proxy.apply(this, [].slice.call(arguments));
+        };
+    }
     // const Mwindow /= (window as unknown) as myWindow;
     Mwindow.chromeStorage = config;
     console.log("injected");
@@ -78,6 +116,7 @@ const inject = (config: any): void => {
         console.log(Mwindow.hup); // this is the good info
         autoRefresh(config);
         gameFilter();
+        lastLogin();
         // eval(`(${autoRefresh.toString()})(${JSON.stringify(config)})`);
     }, 1000);
 };

@@ -4,7 +4,7 @@ import ConfigForm, { MyField } from "../ConfigForm";
 const GameFilter = () => {
     return (
         <>
-            <ConfigForm shape={{ filter: "flashpoint", openSlots: 5 }}>
+            <ConfigForm shape={{ filter: "flashpoint", openSlots: "5" }}>
                 <MyField name="openSlots" />
                 <MyField as="select" name="gameFilter">
                     <option value="none">no filter</option>
