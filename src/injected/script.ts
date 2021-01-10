@@ -44,6 +44,17 @@ const inject = (config: any): void => {
             const newArguments = [newA, arguments[1]];
             return proxy.apply(this, [].slice.call(newArguments));
         };
+        const proxy2 = Mwindow.hup.WebAPI.prototype.getGlobalGames;
+        Mwindow.hup.WebAPI.prototype.getGlobalGames = function () {
+            let newA = arguments[0];
+            let numGames = 1000;
+            let openSlots = Mwindow.chromeStorage.openSlots || 1;
+            console.log({ openSlots });
+            newA.numEntriesPerPage = numGames;
+            newA.openSlots = openSlots;
+            const newArgs = [newA, arguments[1]];
+            return proxy2.apply(this, [].slice.call(newArgs));
+        };
     }
     // const Mwindow /= (window as unknown) as myWindow;
     Mwindow.chromeStorage = config;

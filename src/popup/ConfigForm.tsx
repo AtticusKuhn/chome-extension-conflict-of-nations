@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 // import setConfig from '../contents/all';
 
 const updateStorage = (values: any) => {
@@ -57,6 +57,17 @@ const ConfigForm = ({ children, shape }: { children: any; shape: any }) => {
                 </Form>
             </Formik>
         </div>
+    );
+};
+export const MyField = (props: any) => {
+    const { name, children } = props;
+    return (
+        <>
+            <label htmlFor={name}>{name}</label>
+            <Field name={name} {...props}>
+                {children}
+            </Field>
+        </>
     );
 };
 
