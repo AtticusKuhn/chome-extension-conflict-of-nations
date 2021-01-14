@@ -4,8 +4,13 @@
     "description": "does stuff",
     "manifest_version": 2,
     "minimum_chrome_version": "80",
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
-    "permissions": ["storage"],
+    "content_security_policy": "script-src 'self' 'unsafe-eval' blob: filesystem:; object-src 'self';",
+    "permissions": [
+        "storage",
+        "notifications",
+        "tabs",
+        "https://www.conflictnations.com/*"
+    ],
     "background": {
         "scripts": ["js/background.js"],
         "persistent": true

@@ -5,7 +5,7 @@ const GameFilter = () => {
     return (
         <>
             filter out to get only the games you want to see
-            <ConfigForm shape={{ filter: "flashpoint", openSlots: "5" }}>
+            <ConfigForm shape={{ gameFilter: "flashpoint", openSlots: 5 }}>
                 <MyField className="form-text text-muted" name="openSlots" />
                 <MyField className="form-control" as="select" name="gameFilter">
                     <option value="none">no filter</option>

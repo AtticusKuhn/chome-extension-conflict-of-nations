@@ -3,7 +3,7 @@
 import { myWindow } from "../types";
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export default function autoRefresh(_config: any) {
+export function autoRefreshTest(_config: any) {
     const Mwindow = (window as unknown) as myWindow;
     if (!Mwindow.chromeStorage.autoRefresh) {
         return; // only execute if this setting has been enabled

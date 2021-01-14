@@ -1,10 +1,13 @@
-import { myWindow } from "../types";
+import { myWindow, gameWindow, websiteWindow } from "../types";
 // import autoRefresh from './autoRefresh';
 /*
     rip I must have every function in 1 file unitll I figure out how to use webpack
     */
 const inject = (config: any): void => {
-    const Mwindow = (window as unknown) as myWindow;
+    const w = window as unknown;
+    const Mwindow = w as myWindow;
+    const GameWindow = w as gameWindow;
+    const WebsiteWindow = w as websiteWindow;
     function autoRefresh(_config: any) {
         setInterval(() => {
             console.log("interval checking...");
@@ -37,7 +40,7 @@ const inject = (config: any): void => {
             const newGames = newA.result.games.filter(
                 (game: any) =>
                     game.properties.title ===
-                    Mwindow.chromeStorage.gameFilter.toUpperCase()
+                    WebsiteWindow.chromeStorage.gameFilter.toUpperCase()
             );
             console.log({ newGames });
             newA.result.games = newGames;
@@ -94,30 +97,13 @@ const inject = (config: any): void => {
             return proxy.apply(this, [].slice.call(arguments));
         };
     }
-    // const Mwindow /= (window as unknown) as myWindow;
     Mwindow.chromeStorage = config;
     console.log("injected");
-    // console.log(hup.config.user);
-    // Mwindow.hup = {
-    //     aInternal: {},
-    //     aListener: (val: any) => {},
-    //     set a(val) {
-    //         this.aInternal = val;
-    //         this.aListener(val);
-    //     },
-    //     get a() {
-    //         return this.aInternal;
-    //     },
-    //     registerListener: function (listener: any) {
-    //         this.aListener = listener;
-    //     },
-    // };
     setTimeout(() => {
         console.log(Mwindow.hup); // this is the good info
         autoRefresh(config);
         gameFilter();
         lastLogin();
-        // eval(`(${autoRefresh.toString()})(${JSON.stringify(config)})`);
     }, 1000);
 };
 export default inject;

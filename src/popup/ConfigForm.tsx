@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
+import { chromeStorage } from "../types";
 // import setConfig from '../contents/all';
 
-const updateStorage = (values: any) => {
+const updateStorage = (values: chromeStorage) => {
     chrome.storage.sync.get(null, function (storageItems) {
         console.log("at the begingin, storage is", storageItems);
         const obj = {};
@@ -30,7 +31,11 @@ const updateStorage = (values: any) => {
         });
     });
 };
-const ConfigForm = ({ children, shape }: { children: any; shape: any }) => {
+
+interface ConfigProps {
+    shape: chromeStorage;
+}
+const ConfigForm: React.FC<ConfigProps> = ({ children, shape }) => {
     const [storage, setStorage] = useState(shape);
     useState(() => {
         chrome.storage.sync.get(null, function (storageItems) {
@@ -60,14 +65,24 @@ const ConfigForm = ({ children, shape }: { children: any; shape: any }) => {
         </div>
     );
 };
-export const MyField = (props: any) => {
+
+/*
+there has to be a better way of doing this??
+*/
+// type FieldType = typeof Field;
+interface FieldProps {
+    name: string;
+    type?: string;
+    className?: string;
+    as?: string;
+}
+export const MyField: React.FC<FieldProps> = (props) => {
     const { name, children } = props;
+    // props.type = props.type || "text";
     return (
         <>
             <label htmlFor={name}>{name}</label>
-            <Field name={name} {...props}>
-                {children}
-            </Field>
+            <Field {...props}>{children}</Field>
         </>
     );
 };

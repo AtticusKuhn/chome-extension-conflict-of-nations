@@ -1,6 +1,7 @@
 # custom
 extension/hot/**
 ConExtension.zip
+yarn.lock
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
