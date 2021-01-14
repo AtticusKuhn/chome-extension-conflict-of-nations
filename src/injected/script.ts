@@ -1,17 +1,16 @@
-import { myWindow, gameWindow, websiteWindow } from "../types";
-// import autoRefresh from './autoRefresh';
+import { websiteWindow, gameWindow, myWindow } from "../types";
+import { autoRefreshTest } from "./autoRefresh";
 /*
     rip I must have every function in 1 file unitll I figure out how to use webpack
     */
 const inject = (config: any): void => {
     const w = window as unknown;
-    const Mwindow = w as myWindow;
-    const GameWindow = w as gameWindow;
-    const WebsiteWindow = w as websiteWindow;
+    const websiteWindow = w as websiteWindow;
+    const gameWindow = w as gameWindow;
+    const myWindow = w as myWindow;
     function autoRefresh(_config: any) {
         setInterval(() => {
-            console.log("interval checking...");
-            if (!Mwindow.chromeStorage.autoRefresh) {
+            if (!websiteWindow.chromeStorage.autoRefresh) {
                 return; // only execute if this setting has been enabled
             }
             const games_button = document.querySelector("#ui_open_new_games");
@@ -21,16 +20,15 @@ const inject = (config: any): void => {
             //@ts-ignore
             games_button.click();
         }, 1e3);
-        // if(!window.locatio)
         console.log("auto refresh function");
     }
     function gameFilter() {
         console.log("game filter called");
-        const proxy = Mwindow.hup.model.games.Game.onSearchGamesLoaded;
-        Mwindow.hup.model.games.Game.onSearchGamesLoaded = function () {
+        const proxy = websiteWindow.hup.model.games.Game.onSearchGamesLoaded;
+        websiteWindow.hup.model.games.Game.onSearchGamesLoaded = function () {
             if (
-                !Mwindow.chromeStorage.gameFilter ||
-                Mwindow.chromeStorage.gameFilter === "none"
+                !websiteWindow.chromeStorage.gameFilter ||
+                websiteWindow.chromeStorage.gameFilter === "none"
             ) {
                 return proxy.apply(this, [].slice.call(arguments));
             }
@@ -40,18 +38,21 @@ const inject = (config: any): void => {
             const newGames = newA.result.games.filter(
                 (game: any) =>
                     game.properties.title ===
-                    WebsiteWindow.chromeStorage.gameFilter.toUpperCase()
+                        //@ts-ignore
+                        Mwindow.chromeStorage.gameFilter.toUpperCase() &&
+                    game.properties.openSlots >=
+                        (Number(websiteWindow.chromeStorage.openSlots) || 1)
             );
             console.log({ newGames });
             newA.result.games = newGames;
             const newArguments = [newA, arguments[1]];
             return proxy.apply(this, [].slice.call(newArguments));
         };
-        const proxy2 = Mwindow.hup.WebAPI.prototype.getGlobalGames;
-        Mwindow.hup.WebAPI.prototype.getGlobalGames = function () {
+        const proxy2 = websiteWindow.hup.WebAPI.prototype.getGlobalGames;
+        websiteWindow.hup.WebAPI.prototype.getGlobalGames = function () {
             let newA = arguments[0];
             let numGames = 1000;
-            let openSlots = Mwindow.chromeStorage.openSlots || 1;
+            let openSlots = websiteWindow.chromeStorage.openSlots || 1;
             console.log({ openSlots });
             newA.numEntriesPerPage = numGames;
             newA.openSlots = openSlots;
@@ -61,12 +62,12 @@ const inject = (config: any): void => {
     }
     function lastLogin() {
         console.log("last login called");
-        const proxy = Mwindow.hup.ui.PlayerDetailWidget.prototype.open;
-        Mwindow.hup.ui.PlayerDetailWidget.prototype.open = function () {
-            if (!Mwindow.chromeStorage.lastLogin) {
+        const proxy = gameWindow.hup.ui.PlayerDetailWidget.prototype.open;
+        gameWindow.hup.ui.PlayerDetailWidget.prototype.open = function () {
+            if (!gameWindow.chromeStorage.lastLogin) {
                 return proxy.apply(this, [].slice.call(arguments));
             }
-            const player = Mwindow.hup.gameState
+            const player = gameWindow.hup.gameState
                 .getPlayerState()
                 .getPlayer(arguments[0].data);
             const lastLoginTime = player.lastLogin;
@@ -75,7 +76,6 @@ const inject = (config: any): void => {
                 if (!document.getElementById("player_detail")) {
                     return;
                 }
-                //    const row=  document.querySelector("#player_detail > div.stats_right_container.clearAfter > div.right-pane > div > div > div:nth-child(2)")
                 const newDiv = document.createElement("div");
                 newDiv.innerHTML = `
             <div class="detail_entry">
@@ -97,13 +97,24 @@ const inject = (config: any): void => {
             return proxy.apply(this, [].slice.call(arguments));
         };
     }
-    Mwindow.chromeStorage = config;
+    //@ts-ignore
+    gameWindow.adminTest = function () {
+        gameWindow.hup.adminActionController.canPerformAdminActions = () =>
+            true;
+        gameWindow.hup.config.userData.adminLevel = 2;
+    };
+    // const Mwindow /= (window as unknown) as myWindow;
+    myWindow.chromeStorage = config;
     console.log("injected");
+
+    autoRefreshTest(config);
     setTimeout(() => {
-        console.log(Mwindow.hup); // this is the good info
+        console.log(myWindow.hup); // this is the good info
         autoRefresh(config);
         gameFilter();
         lastLogin();
+        // window.dispatchEvent(new CustomEvent("getChromeData"));
+        // window.postMessage({ hello: "world" }, "*");
     }, 1000);
 };
 export default inject;
